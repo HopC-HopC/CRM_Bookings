@@ -6,7 +6,7 @@ import calendar
 
 from googlemaps import Client as GoogleMaps
 
-API_KEY = "AIzaSyDbYrFwu-5Nftk1f2xc_lBZkMFSR98YGps"
+API_KEY = ""
 
 gmaps = GoogleMaps(key=API_KEY)
 
