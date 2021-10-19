@@ -8,7 +8,7 @@
   <li>solve a problem: lack of relevant options for CRM and booking systems for companies operating in this sector.</li>
 </ol>
 
-<p>It's safe to say that some of the code is not as elegant as I would have liked, and if I were to start again it would be much more clean. Some of the .py files are far too large and there is repetition of code for a number of views/routes which I would ideally clean up.</p>
+<p>It's safe to say that some of the code is not as elegant as I would have liked, and if I were to start again it would be much more clean. This was a learning process, and my understanding improved over weeks/months of work. Some of the .py files are far too large and there is repetition of code for a number of views/routes which I would ideally clean up.</p>
 
 <h2>Comments and docs</h2>
 
