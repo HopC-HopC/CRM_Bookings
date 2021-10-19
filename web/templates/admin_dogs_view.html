@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}{{dog.name}} - {{config['SITE_NAME']}}{% endblock %}
+
+{% block content %}
+
+
+<h3 align="center" style="margin-top: 5%;">Details for Dog {{dog.id}}</h3>
+<ul class="list-group list-group flush" id="account" style="margin-right: auto;width: 50%;margin-left: auto;min-width: 400px;">
+
+<p>
+    <form method="POST">
+
+
+<li class="list-group-item">Name:   
+    <input type="text" 
+        class="form-control" 
+        id="name" 
+        name="name" 
+        value="{{ dog.name }}"
+        required
+    />
+</li>
+<li class="list-group-item">Breed:   
+    <input type="text" 
+        class="form-control" 
+        id="breed" 
+        name="breed" 
+        value="{{ dog.breed }}"
+        required
+    /></li>
+    <li class="list-group-item">Age:   
+        <input type="number" 
+            class="form-control" 
+            id="age" 
+            name="age" 
+            value="{{ dog.age }}"
+            required
+        /></li>
+    <li class="list-group-item">Gender:   
+        <input type="text" 
+            class="form-control" 
+            id="gender" 
+            name="gender" 
+            value="{{ dog.gender }}"
+            required
+        /></li>
+    <li class="list-group-item">Owner:  
+        <input type="text" 
+            class="form-control" 
+            id="address_1" 
+            name="address_1" 
+            value="{{ dog.owner.first_name }} {{ dog.owner.surname }}"
+            disabled
+        /> </li>
+    <li class="list-group-item">Address  
+        <input type="text" 
+            class="form-control" 
+            id="address" 
+            name="address" 
+            value="{{ dog.owner.address_1 }}"
+            disabled
+        /> </li>
+    <li class="list-group-item">Post Code:  
+        <input type="text" 
+            class="form-control" 
+            id="post_code" 
+            name="post_code" 
+            value="{{ dog.owner.post_code }}"
+            disabled
+        /> </li>
+<li class="list-group-item">Contact Number:  
+    <input type="text" 
+        class="form-control" 
+        id="phone" 
+        name="phone" 
+        value="{{ dog.owner.phone }}"
+        disabled
+    /> </li>
+<p align="center" >
+    <button type="submit" class="btn btn-primary">Update dog details</button>
+</form>
+</p>
+</p>
+</ul>
+
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}My account details - {{config['SITE_NAME']}}{% endblock %}
+
+{% block content %}
+
+<h3 align="center" style="margin-top: 5%;">My Account</h3>
+<ul class="list-group list-group flush" id="account" style="margin-right: auto;width: 50%;margin-left: auto;min-width: 400px;">
+
+<p>
+    <form method="POST">
+
+
+<li class="list-group-item">Name:   
+    <input type="text" 
+        class="form-control" 
+        id="first_name" 
+        name="first_name" 
+        value="{{ current_user.first_name }}"
+        
+    />
+    <input type="text" 
+        class="form-control" 
+        id="surname" 
+        name="surname" 
+        value="{{current_user.surname}}"
+        
+    />
+</li>
+<li class="list-group-item">Email:   
+    <input type="email" 
+        class="form-control" 
+        id="email" 
+        name="email" 
+        value="{{ current_user.email }}"
+        
+    /></li>
+    <li class="list-group-item">Username:   
+        <input type="text" 
+            class="form-control" 
+            id="username" 
+            name="username" 
+            value="{{ current_user.username }}"
+            disabled
+        /></li>
+    <li class="list-group-item">Address:  
+        <input type="text" 
+            class="form-control" 
+            id="address_1" 
+            name="address_1" 
+            value="{{ current_user.address_1 }}"
+            
+        /> </li>
+    <li class="list-group-item">Post Code:  
+        <input type="text" 
+            class="form-control" 
+            id="post_code" 
+            name="post_code" 
+            value="{{ current_user.post_code }}"
+            
+        /> </li>
+<li class="list-group-item">Contact Number:  
+    <input type="text" 
+        class="form-control" 
+        id="phone" 
+        name="phone" 
+        value="{{ current_user.phone }}"
+        
+    /> </li>
+<p align="center" >
+    <button type="submit" class="btn btn-primary">Update account details</button>    <a class="btn btn-primary" id="my_dogs" href="/my_dogs">View my dogs</a>
+</form>
+</p>
+</p>
+</ul>
+
+
+{% endblock %}

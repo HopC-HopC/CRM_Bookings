@@ -1,0 +1,101 @@
+{% extends "base2.html" %} 
+{% block title %}
+All Dogs - {{config['SITE_NAME']}}
+{% endblock %} 
+{% block script %}
+<script>
+  window.addEventListener('load', 
+  function() { 
+    toggleMenu();
+  }, false);
+
+</script>
+
+<style>
+  .view {
+    width: 100%;
+    margin: auto;
+  }
+
+.wrapper {
+  position: relative;
+  overflow: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  }
+.sticky-col {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: white;
+  border-right: 1px solid gray;
+}
+</style>
+
+{% endblock %} 
+
+{% block heading %}
+View dogs
+{% endblock %}
+
+{% block content %}
+<div class="contentBox">
+<div class="content">
+    
+<div class="view">
+  <div class="wrapper">
+    <!-- <div style="overflow-x: scroll"> -->
+      <div style="overflow-x: auto;">
+      <table class="table table-hover" style="border: 1px solid grey; font-family: Arial, sans-serif; border-collapse: collapse; border-radius: 100px;">
+        <thead>
+          <tr style="text-align: center; vertical-align: middle;background-color: rgb(228, 228, 228);">
+            <th scope="col" class="sticky-col"  style="border: 1px solid grey; border-collapse: collapse;position: relative;background-color:  rgb(228, 228, 228);">Name<br />(Click to view)</th>
+            <th scope="col"  style="border: 1px solid grey; border-collapse: collapse;position: relative;">Owner<br />(Click to view)</th>
+            <th scope="col"  style="border: 1px solid grey; border-collapse: collapse;position: relative;">Bookings<br />(Click to view)</th>
+            <th scope="col" style="border: 1px solid grey; border-collapse: collapse;position: relative;">Breed</th>
+            <th scope="col" style="border: 1px solid grey; border-collapse: collapse;position: relative;">Age</th>
+            <th scope="col" style="border: 1px solid grey; border-collapse: collapse;position: relative;">Gender</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dog in dog_list %}
+          <tr style="text-align: center">
+            <td class="sticky-col" scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 0px;background-color:  rgb(228, 228, 228);z-index: 1;">
+              <a
+                class="nav-item nav-link"
+                id="view_owner"
+                href="/admin_dogs/{{dog.id}}"
+                >{{ dog.name }}</a
+              >
+            </td>
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">
+              <a
+                class="nav-item nav-link"
+                id="view_owner"
+                href="/owner/{{dog.owner.id}}"
+                >{{ dog.owner.first_name }} {{ dog.owner.surname }}</a
+              >
+            </td> 
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">
+              <a
+                class="nav-item nav-link"
+                id="view_owner"
+                href="/admin_dog_calendar/{{dog.owner.id}}"
+                >Manage Bookings</a
+              >
+            </td>
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">{{ dog.breed }}</td>
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">{{ dog.age }}</td>
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">{{ dog.gender }}</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

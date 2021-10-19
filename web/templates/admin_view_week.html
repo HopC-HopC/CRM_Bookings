@@ -1,0 +1,155 @@
+{% extends "base.html" %} {% block title %}Weekly Bookings - {{config['SITE_NAME']}}{% endblock %} {% block script %}
+
+<style>
+  .view {
+    margin: auto;
+  }
+  .wrapper {
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    border-right: 1px solid gray;
+  }
+</style>
+
+{% endblock %} {% block content %}
+
+<div class="calendar-header" align="center">
+  <h3 align="center" style="margin-top: 5%">Weekly Bookings</h3>
+
+  <p style="width: 300px; text-align: center" align="center">
+    <span style="text-align: center" align="center"
+      ><a
+        class="nav-item nav-link"
+        id="previous week"
+        href="/admin_view_bookings/{{iso_week - 1}}/{{iso_year}}"
+        >previous week</a
+      ><a
+        class="nav-item nav-link"
+        id="next month"
+        href="/admin_view_bookings/{{iso_week + 1}}/{{iso_year}}"
+        >next week</a
+      ></span
+    >
+  </p>
+</div>
+<div class="view">
+  <div class="wrapper">
+    <div style="overflow-x: auto">
+      <table class="table table-hover" align="center">
+        <thead>
+          <tr style="text-align: center; vertical-align: middle">
+            <th scope="col" class="sticky-col">
+              Week {{iso_week}}<br /><a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_spreadsheet/{{month_num}}"
+              >{{iso_month}}</a>
+            </th>
+            <th scope="col">
+              Monday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.0.2}}/{{week_dates.0.1}}"
+              >{{week_dates.0.0}}</a>
+            </th>
+            <th scope="col">
+              Tuesday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.1.2}}/{{week_dates.1.1}}"
+              >
+              {{week_dates.1.0}}</a>
+            </th>
+            <th scope="col">
+              Wednesday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.2.2}}/{{week_dates.2.1}}"
+              >
+              {{week_dates.2.0}}</a>
+            </th>
+            <th scope="col">
+              Thursday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.3.2}}/{{week_dates.3.1}}"
+              >
+              {{week_dates.3.0}}</a>
+            </th>
+            <th scope="col">
+              Friday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.4.2}}/{{week_dates.4.1}}"
+              >
+              {{week_dates.4.0}}</a>
+            </th>
+            <th scope="col">
+              Saturday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.5.2}}/{{week_dates.5.1}}"
+              >
+              {{week_dates.5.0}}</a>
+            </th>
+            <th scope="col">
+              Sunday<br />
+              <a
+              class="nav-item nav-link"
+              id="view_owner"
+              href="/admin_today/{{week_dates.6.2}}/{{week_dates.6.1}}"
+              >
+              {{week_dates.6.0}}</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in week %}
+          <tr style="text-align: center">
+            {% for key, value in x.items() %} {% if loop.index == 1 %}
+            <td class="sticky-col"><b><a
+              class="nav-item nav-link"
+              id="view_dog"
+              href="/admin_dogs/{{value.1}}"
+              >{{value.0}}</a></b></td>
+            {% elif value == 0 %}
+            <td></td>
+            {% else %}
+            <td>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-check2"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                />
+              </svg>
+            </td>
+            {% endif %} {% endfor %}
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="filler" style="height: 200px; width: 100%"></div>
+{% endblock %}

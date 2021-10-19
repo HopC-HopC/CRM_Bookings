@@ -1,0 +1,123 @@
+{% extends "base2.html" %} 
+{% block title %}
+Sign Up - {{config['SITE_NAME']}}
+{% endblock %} 
+{% block heading %} 
+Sign up
+{% endblock %}
+{% block content %}
+  <div class="contentCol">
+    <div class="content">
+<form method="POST">
+  <!-- <div
+    class="form-group"
+    style="max-width: 650px; margin-left: auto; margin-right: auto"
+  > -->
+    <label for="username">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      name="username"
+      placeholder=""
+      required="required"
+    />
+    <label for="email">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder=""
+      required="required"
+    />
+    <label for="password1">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password1"
+      name="password1"
+      placeholder="Minimum 7 characters"
+      minlength="7"
+      required="required"
+    />
+    <label for="password2">Password confirmation</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password2"
+      name="password2"
+      placeholder=""
+      minlength="7"
+      required="required"
+    />
+</div>
+<div class="content">
+
+    <label for="first_name">First name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="first_name"
+      name="first_name"
+      placeholder=""
+      minlength="2"
+      required="required"
+    />
+    <label for="surname">Surname</label>
+    <input
+      type="text"
+      class="form-control"
+      id="surname"
+      name="surname"
+      placeholder=""
+      minlength="2"
+      required="required"
+    />
+    <label for="phone">Primary contact number</label>
+    <input
+      type="tel"
+      class="form-control"
+      id="phone"
+      name="phone"
+      placeholder=""
+      required="required"
+      minlength="10"
+      maxlength="13"
+    />
+    <label for="address">First line of address</label>
+    <input
+      type="text"
+      class="form-control"
+      id="address"
+      name="address"
+      placeholder="""
+      required="required"
+    />
+    <label for="post_code">Post code</label>
+    <input
+      type="text"
+      class="form-control"
+      id="post_code"
+      name="post_code"
+      placeholder=""
+      minlength="5"
+      maxlength="8"
+      required="required"
+    />
+  <!-- </div> -->
+  </div>
+  </div>
+  <div class="contentBox">
+  <div class="content">
+
+  <p align="center">
+    <br />
+    <button type="submit" class="btn btn-primary">
+      Add your dog(s)
+    </button>
+  </p>
+</form>
+</div>
+</div>
+{% endblock %}

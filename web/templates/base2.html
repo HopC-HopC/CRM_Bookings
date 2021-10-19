@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block script %} {% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Customer and booking management system for dog daycare and walking services.">
+  <title>{% block title %}{{config['SITE_NAME']}}{% endblock %}</title>
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous"> -->
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  <link type="text/css" href="/static/main.css" rel="stylesheet">
+  
+  <script src="https://kit.fontawesome.com/e7410e5408.js" crossorigin="anonymous"></script>
+
+
+
+
+</head>
+<body>
+<div class="container_">
+  <div class="navigation_">
+    <ul>
+      <li>
+          <span class="icon"><i class="fas fa-dog"></i></span>
+          <span class="title"><h2>Django's</h2></span>
+      </li>
+
+      {% if not user.is_authenticated %}
+      <li>
+        <a id="signup" href="/signup">
+          <span class="icon"><i class="fas fa-user-plus"></i></span>
+          <span class="title">Sign up</span>
+        </a>
+      </li>
+      <li>
+        <a id="login" href="/login">
+          <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+          <span class="title">Log in</span>
+        </a>
+      </li>
+
+      {% else %} {% if user.role=="admin" %}
+      <li class="adminhead">
+        <a id="admin" href="/admin">
+          <span class="icon"><i class="fas fa-home"></i></span>
+          <span class="title">Admin</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" href="/admin_customers" style="padding-left: 15px;">
+          <span class="icon"><i class="fas fa-angle-double-right"></i></span>
+          <span class="title">Customers</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" href="/admin_dogs" style="padding-left: 15px;">
+          <span class="icon"><i class="fas fa-angle-double-right"></i></span>
+          <span class="title">Dogs</span>
+        </a>
+      </li>
+      <li>
+        <a id="view_bookings" href="/view_bookings">
+          <span class="icon"><i class="far fa-calendar-check"></i></span>
+          <span class="title">Bookings</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" href="/admin_spreadsheet" style="padding-left: 15px;">
+          <span class="icon"><i class="fas fa-angle-double-right"></i></span>
+          <span class="title">Spreadsheet</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" href="/admin_today" style="padding-left: 15px;">
+          <span class="icon"><i class="fas fa-angle-double-right"></i></span>
+          <span class="title">Day</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" href="/admin_view_bookings" style="padding-left: 15px;">
+          <span class="icon"><i class="fas fa-angle-double-right"></i></span>
+          <span class="title">Week</span>
+        </a>
+      </li>
+      {% else %}
+      <li>
+        <a id="home" href="/home">
+          <span class="icon"><i class="fas fa-home"></i></span>
+          <span class="title">Home</span>
+        </a>
+      </li>
+      <li>
+        <a id="my_account" href="/my_account">
+          <span class="icon"><i class="fas fa-user-circle"></i></span>
+          <span class="title">My account ({{ current_user.username }})</span>
+        </a>
+      </li>
+      <li>
+        <a id="my_dogs" href="/my_dogs">
+          <span class="icon"><i class="fas fa-paw"></i></span>
+          <span class="title">My dogs</span>
+        </a>
+      </li>
+      <li>
+        <a id="my_bookings" href="/bookings>
+          <span class="icon"><i class="far fa-calendar-check"></i></span>
+          <span class="title">My bookings</span>
+        </a>
+      </li>
+      {% endif %}
+      <li>
+        <a id="logout" href="/logout">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span class="title">Log out</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="main_">
+    <div class="topbar_">
+      <div class="toggle_" onclick="toggleMenu();">
+
+      </div>
+      <div class="heading_">
+        <h3 align="center">{% block heading %}huddle{% endblock %}</h3>
+      </div>
+      <div class="topbarRight_">
+      </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %} {% if category ==
+      "error" %}
+      <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true"> &times; </span>
+        </button>
+      </div>
+      {% else %}
+  
+      <div class="alert alert-success alert-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true"> &times; </span>
+        </button>
+      </div>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
+    {% block content %} {% endblock %}
+    <!-- <div class="contentBox">
+      <div class="content">
+        Standard content
+      </div>
+    </div>
+    <div class="contentCol">
+      <div class="content">
+        Column content
+      </div>
+      <div class="content">
+        Column content
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function toggleMenu() {
+    let toggle = document.querySelector('.toggle_');
+    toggle.classList.toggle('active')
+    let navigation = document.querySelector('.navigation_');
+    navigation.classList.toggle('active')
+    let main = document.querySelector('.main_');
+    main.classList.toggle('active')
+    let heading = document.querySelector('.heading_');
+    heading.classList.toggle('active')
+  }
+
+if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ ){
+    let toggle = document.querySelector('.toggle_');
+    toggle.classList.toggle('active')
+    let navigation = document.querySelector('.navigation_');
+    navigation.classList.toggle('active')
+    let main = document.querySelector('.main_');
+    main.classList.toggle('active')
+    let heading = document.querySelector('.heading_');
+    heading.classList.toggle('active')
+  //  $form.addClass('active');
+
+}
+</script>
+
+</body>
+</html>

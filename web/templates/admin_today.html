@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Today's Dogs - {{config['SITE_NAME']}}{% endblock %}
+{% block script %} 
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+//     $(document).ready(function(){
+        
+//       $("select").change(save_assignment()); 
+// });
+
+</script>
+<script>
+function save_assignment(booking_id){
+     var staff_id=$("#" + booking_id + " option:selected").val(); 
+     var staff=$("#" + booking_id + " option:selected").text(); 
+     console.log(staff,staff_id, booking_id);
+     $.post("/assign_dog", {"staff": staff, "staff_id": staff_id, "booking_id": booking_id});
+     
+} 
+</script>
+
+
+{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 10px;">Daily View</h4>
+<div style="display: grid;grid-template-columns: 1fr 1fr 1fr;margin-bottom: 2%;margin-top: 1%;">
+    <div align="center">
+        <a
+        class="nav-item nav-link"
+        id="previous day"
+        href="/admin_today/{{previous_day.0}}/{{previous_day.1}}"
+        >Previous day</a>
+    </div>
+    <div align="center"><b>{{today}}</b></div>
+    <div align="center">
+        <a
+        class="nav-item nav-link"
+        id="next day"
+        href="/admin_today/{{next_day.0}}/{{next_day.1}}"
+        >Next day</a>
+    </div>
+</div>
+<div style="
+width: 100%;
+height: 100%;
+display: grid;
+grid-template-columns: 2fr 3fr;">
+<div>
+    <table class="table table-hover" align="center" style="border: 1px solid grey; font-family: Arial, sans-serif; border-collapse: collapse; border-radius: 100px;">
+        <tr style="text-align: center; vertical-align: middle">
+            <th scope="col" class="sticky-col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 0px;"><b>Name of dog</b><br />(Click for owner details)</th>
+            <th scope="col" class="sticky-col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 0px;"><b>Assigned to</b><br /></th>
+        </tr>
+        {% for dog, assignment, booking_id, x in dog_names %}
+        <tr style="text-align: center; vertical-align: middle">
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;">
+
+            <a
+                class="nav-item nav-link"
+                id="view_owner"
+                href="/owner/{{dog.owner_id}}"
+                >{{loop.index}}.  {{dog.name}}</a></li>
+            </td>
+            
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;">
+                <select class="form-select" id="{{booking_id}}" onchange='save_assignment({{booking_id}})'>
+                    {% for option in config["STAFF_LIST"] %}
+                        <option value="{{ loop.index - 1 }}" {% if loop.index -1 == assignment %}selected{% endif %}>{{option}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+<!-- 
+            
+    <p align="center">
+
+
+        <ol class="list-group list-group flush" style="display:grid;grid-template-columns: 1fr 1fr;">
+            
+            <li class="list-group-item" align="center"><b>Name of dog</b><br />(Click for owner details)</li>
+            <li class="list-group-item" align="center"><b>Assigned to</b><br /></li>
+
+            {% for dog, assignment, booking_id, x in dog_names %} 
+
+            <li class="list-group-item" align="center">
+                <a
+                class="nav-item nav-link"
+                id="view_owner"
+                href="/owner/{{dog.owner_id}}"
+                >{{loop.index}}.  {{dog.name}}</a></li>
+            <li class="list-group-item" align="center"><form>
+                <select class="form-select" id="{{booking_id}}" onchange='save_assignment({{booking_id}})'>
+                    {% for option in config["STAFF_LIST"] %}
+                        <option value="{{ loop.index - 1 }}" {% if loop.index -1 == assignment %}selected{% endif %}>{{option}}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            {% endfor %}
+        </li>
+        </ol>
+    </p> -->
+
+
+</div>
+<div id="map" style="height: 100%;width:100%;">
+
+</div>
+
+</div>
+
+
+</div>
+
+<script>
+function initMap() {
+    const home = { lat: 52.64006, lng: 1.29115 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: home,
+    });
+
+    geocoder = new google.maps.Geocoder();
+
+    var addresses = {{dog_names|striptags|safe}};
+    for (var i=0; i<addresses.length; i++) {
+        let label=addresses[i][3]['LABEL']
+        let dogName = addresses[i][3]['DOGNAME']
+        let ownerName = addresses[i][3]['OWNERNAME']
+        let address = addresses[i][3]['ADDRESS']
+        let postCode = addresses[i][3]['POSTCODE']
+        let country = addresses[i][3]['COUNTRY']
+        let staffList = {{ config["STAFF_LIST"]|safe }}
+        let assignedTo = staffList[addresses[i][1]]
+        geocoder.geocode( { 'address': address + ', ' + postCode + ', ' + country}, function(results, status) {
+            if (status == 'OK') {
+                const contentString = '<b>Dog:</b> ' + dogName + '<br />' +
+                    '<b>Owner:</b> ' + ownerName + '<br />' + 
+                    '<b>Address:</b> ' + address + '<br />' +
+                    '<b>Post Code:</b> ' + postCode + '<br /><br />' +
+                    '<b>Assigned to:</b> ' + assignedTo + '<br />';
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                });
+                var marker = new google.maps.Marker({
+                    position: results[0].geometry.location,
+                    label: label,
+                    map,
+                });
+                
+                marker.addListener("click", () => {
+                    infowindow.open({
+                    anchor: marker,
+                    map,
+                    shouldFocus: false,
+                    });
+                });
+            };
+        });
+    }
+}
+    
+
+
+</script>
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3igJY6oFBDHikgZZQBa6-z9JDpriU0c4&callback=initMap"
+async
+></script>
+
+{% endblock %}

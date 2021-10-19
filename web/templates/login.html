@@ -1,0 +1,44 @@
+{% extends "base2.html" %} 
+{% block title %}Log In - {{config['SITE_NAME']}}
+{% endblock %} 
+{% block script %} {% endblock %} 
+{% block heading %}
+Log in
+{% endblock %}
+{% block content %}
+
+<div class="contentBox">
+<div class="content">
+    
+<form method="POST">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      name="username"
+      placeholder="username123"
+      required="required"
+    />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Please enter your password"
+      required="required"
+    />
+  </div>
+  <br />
+  <p align="center">
+    <button type="submit" class="btn btn-primary">Log In</button><br />
+    <a class="nav-item nav-link" id="signup" href="/signup">or sign up</a>
+  </p>
+</form>
+
+</div>
+</div>
+
+{% endblock %}

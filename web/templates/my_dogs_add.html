@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block title %}Add My Dog - {{config['SITE_NAME']}}{%
+endblock %} {% block content %}
+
+<form
+  method="POST"
+  style="
+    margin-right: auto;
+    width: 50%;
+    margin-left: auto;
+    min-width: 400px;
+    margin-top: 5%;
+  "
+>
+  <h3 align="center">Add a New Dog</h3>
+  <div class="form-group" align="center">
+    <label for="dog_name">Dog's Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="dog_name"
+      name="dog_name"
+      placeholder="Django"
+    />
+    <label for="dog_breed" align="center">Breed</label>
+    <input
+      type="text"
+      class="form-control"
+      id="dog_breed"
+      name="dog_breed"
+      placeholder="Australian Cattle Dog"
+    />
+    <label for="dog_breed" align="center">Age</label>
+    <input
+      type="text"
+      class="form-control"
+      id="dog_age"
+      name="dog_age"
+      placeholder="5"
+    />
+    <p align="center">Gender</p>
+    <label
+      class="radio-inline"
+      style="
+        display: inline-block;
+        white-space: pre;
+        content: '\A'attr(value);
+        margin-right: 1.5em;
+      "
+      >Boy
+      <input
+        type="radio"
+        class="form-control"
+        id="dog_gender_male"
+        name="dog_gender"
+        value="male"
+      />
+    </label>
+    <label
+      class="radio-inline"
+      style="
+        display: inline-block;
+        white-space: pre;
+        content: '\A'attr(value);
+        margin-left: 1.5em;
+      "
+      >Girl
+      <input
+        type="radio"
+        class="form-control"
+        id="dog_gender_female"
+        name="dog_gender"
+        value="female"
+      />
+    </label>
+  </div>
+  <p align="center" style="margin-top: -5%">
+    <button type="submit" class="btn btn-primary">Add Dog</button>
+  </p>
+</form>
+<div id="filler" style="height: 200px; width: 100%"></div>
+{% endblock %}

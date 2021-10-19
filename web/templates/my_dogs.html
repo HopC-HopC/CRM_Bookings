@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}My Dogs - {{config['SITE_NAME']}}{%
+endblock %} {% block content %}
+
+<h3 align="center" style="margin-top: 5%">My Dogs</h3>
+<ul
+  class="list-group list-group flush"
+  id="notes"
+  style="margin-right: auto; width: 50%; margin-left: auto; min-width: 400px"
+>
+  {% for dog in user.dogs %}
+  <p>
+    <li class="list-group-item">Name: {{ dog.name }}</li>
+    <li class="list-group-item">Breed: {{ dog.breed }}</li>
+    <li class="list-group-item">Gender: {{ dog.gender }}</li>
+    <li class="list-group-item">Age: {{ dog.age }}</li>
+  </p>
+  {% endfor %}
+</ul>
+
+<p align="center" style="margin-top: 5%">
+  <a id="add_my_dogs" href="/add_my_dogs" class="btn btn-primary">Add a new dog</a
+  >
+  <a id="bookings" href="/bookings" class="btn btn-primary">Manage my bookings</a
+  >
+</p>
+<div id="filler" style="height: 200px; width: 100%"></div>
+{% endblock %}

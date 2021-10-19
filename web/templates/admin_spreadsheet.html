@@ -1,0 +1,197 @@
+{% extends "base2.html" %}
+
+{% block title %}All bookings - {{config['SITE_NAME']}}{% endblock %}
+{% block script %} 
+<script>
+  window.addEventListener('load', 
+  function() { 
+    toggleMenu();
+  }, false);
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    .view {
+      width: 100%;
+      margin: auto;
+    }
+    .wrapper {
+      position: relative;
+      overflow: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sticky-col {
+      position: -webkit-sticky;
+      position: sticky;
+      z-index: 1;
+      left: 0;
+      border-right: 1px solid gray;
+    }
+  </style>
+
+
+{% endblock %}
+
+{% block heading %} 
+Booking Management
+{% endblock %}
+{% block content %}
+
+<div class="contentBox">
+    <div class="content">
+    
+     <div style="width: 100%; display: grid;grid-template-columns: 1fr 1fr 1fr;margin-bottom: 2%;margin-top: 1%;">
+       
+      <div align="center" style="vertical-align: middle; height: 100%;">
+            <a
+            class="nav-item nav-link"
+            id="previous month"
+            href="/admin_spreadsheet/{{month_num-1}}"
+            >
+            <buton class="button_">Previous month</buton>
+        </a>
+        </div>
+        
+      <div align="center" style="vertical-align: middle; height: 100%;"><h3>{{month_name}}, {{year}}</h3>
+        </div>
+        <div align="center" style="vertical-align: middle; height: 100%;">
+
+            <a
+            class="nav-item nav-link"
+            id="next month"
+            href="/admin_spreadsheet/{{month_num+1}}"
+            >
+            <buton class="button_">Next month</buton>
+        </a>
+        </div>
+    </div>
+</div>
+    <div class="content">
+        <div class="view">
+    
+
+    <div class="wrapper">
+
+
+        <div style="overflow-x: auto">
+<table class="table table-hover" align="center" style="border: 1px solid grey; font-family: Arial, sans-serif; border-collapse: collapse; border-radius: 100px;">
+    <tr style="text-align: center; vertical-align: middle;background-color: rgb(228, 228, 228);">
+        <th scope="col" class="sticky-col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 0px;z-index: 1;"> </th>
+        {% for days in month_dates %}
+        <th scope="col" style="border: 1px solid grey; border-collapse: collapse;position: relative;">
+            <a
+            class="nav-item nav-link"
+            id="previous month"
+            href="/admin_today/{{month_num}}/{{days.0}}"
+            >{{days.1}}<br />{{days.0}}/{{month_num}}</a></th>
+        {% endfor %}
+    </tr>
+        {% for key, value in all_data.items() %}
+        <tr style="text-align: center; vertical-align: middle">
+            <td scope="col" class="sticky-col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 0px;background-color:  rgb(228, 228, 228);">
+                <div style="resize: horizontal; overflow: auto;z-index: 1;">
+                    <b><a
+                        class="nav-item nav-link"
+                        id="previous month"
+                        href="/admin_dogs/{{all_data[key]["DOGID"]}}"
+                        >{{all_data[key]["DOGNAME"]}}</a><br /></b>
+                </div>
+            </td>
+            {% for day in all_data[key]["ATTENDANCE"] %}
+
+            <td scope="col" style="border: 1px solid grey; border-collapse: collapse; border-radius: 100px;word-wrap: break-word;position: relative;">
+
+                <div style="word-wrap: break-word;" id="/{{day[2]}}/{{day[4]}}/{{month_num}}/">
+
+            
+                    <input type="radio" class="{{day[1]}}" name="{{day[1]}}" value="full" onclick="bookingChange({{day[1]}}, 1, {{day[2]}}, {{day[4]}})" {% if day[3] == 1 %}checked{% endif %}>
+                    <input type="radio" class="{{day[1]}}" name="{{day[1]}}" value="half" onclick="bookingChange({{day[1]}}, 2, {{day[2]}}, {{day[4]}})" {% if day[3] == 2 %}checked{% endif %}>
+                    <input type="radio" class="{{day[1]}}" name="{{day[1]}}" value="walk" onclick="bookingChange({{day[1]}}, 3, {{day[2]}}, {{day[4]}})" {% if day[3] == 3 %}checked{% endif %}>
+                    <input type="radio" class="{{day[1]}}" name="{{day[1]}}" value="visit" onclick="bookingChange({{day[1]}}, 4, {{day[2]}}, {{day[4]}})" {% if day[3] == 4 %}checked{% endif %}>
+                    <p align="center" style="vertical-align: middle;margin-top: -5px;margin-left: auto;margin-right: auto;width: 100%;margin-bottom: 0;padding-bottom: 0;">
+                   
+            {% if day[0] != 0 %}   
+                    <button type="button" class="close" style="display: block;margin: 0 auto;float: inherit" id="{{day[1]}}" >
+                        <span aria-hidden="true" onclick="bookingChange({{day[1]}}, 0, {{day[2]}}, {{day[4]}})">
+                            &times; 
+                        </span>
+                    </button> 
+                    {% endif %}
+                    </p>
+ 
+                </div>
+            </td>
+
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+</table>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+function bookingChange(id,change,dog_id, day) {
+    var month = {{month_num}}
+    console.log(
+        "bookingChange called " + id + " " + change + " " + dog_id  + " " + month + " " + day
+    )
+      
+    var elems = document.getElementsByClassName("/"+dog_id+"/"+day+"/"+month);
+    $.post("/admin_spreadsheet_change", {"id": id, "change": change, "dog": dog_id, "day": day, "month": month}, function(data) { updateCell(dog_id, day, month, data["booking_id"], elems,change)});
+}
+
+function updateCell(dog_id, day, month, booking_id, elems, change) {
+
+    for (var i=0;i<elems.length;i+=1){
+        elems[i].style.display = 'none';
+    }
+
+    var new_status = "Booking<br />Cancelled"
+    var change0 = ""
+    var change1 = ""
+    var change2 = ""
+    var change3 = ""
+    var change4 = ""
+    if (change == 1) {
+        new_status="Full Day<br/>Booked"
+        change1 = "checked"
+    }
+    else if (change == 2) {
+        new_status="Half Day<br/>Booked"
+        change2 = "checked"
+    }
+    else if (change == 3) {
+        new_status="Walk<br/>Booked"
+        change3 = "checked"
+    }
+    else if (change == 4) {
+        new_status="Visit<br/>Booked"
+        change4 = "checked"
+    }
+    if (change != 0){
+        change0 = '<p align="center" style="vertical-align: middle;margin-top: -5px;margin-left: auto;margin-right: auto;width: 100%;margin-bottom: 0;padding-bottom: 0;">' +
+            '<button type="button" class="close" style="display: block;margin: 0 auto;float: inherit;" id="' + booking_id + '" >' +
+            '<span aria-hidden="true" onclick="bookingChange(' + booking_id + ', 0, ' + dog_id + ', ' + day + ')">' +
+            '&times; ' + '</span>' + '</button> ' + '</p>'
+    }
+
+    var updated_html = '<input type="radio" class="' + booking_id + '" name="' + booking_id + '" value="full" onclick="bookingChange(' + booking_id + ', 1, ' + dog_id + ', ' + day + ')" '+ change1 + '>' +
+        '<input type="radio" class="' + booking_id + '" name="' + booking_id + '" value="half" onclick="bookingChange(' + booking_id + ', 2, ' + dog_id + ', ' + day + ')" '+ change2 + '>' +
+        '<input type="radio" class="' + booking_id + '" name="' + booking_id + '" value="walk" onclick="bookingChange(' + booking_id + ', 3, ' + dog_id + ', ' + day + ')" '+ change3 + '>' +
+        '<input type="radio" class="' + booking_id + '" name="' + booking_id + '" value="visit" onclick="bookingChange(' + booking_id + ', 4, ' + dog_id + ', ' + day + ')" '+ change4 + '>' + change0
+
+    var original_style = document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").style
+    var original_html = document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").innerHTML
+    document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").innerHTML = new_status
+    document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").style.fontSize = "small"
+    setTimeout(function return_html() {document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").innerHTML = updated_html, document.getElementById("/"+dog_id+"/"+day+"/"+month+"/").style = original_style}, 2000)
+            
+}
+</script>
+{% endblock %}

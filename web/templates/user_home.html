@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome {{current_user.first_name}} {{current_user.surname}} - {{config['SITE_NAME']}}{% endblock %}
+
+{% block script %}
+
+<style>
+  .view {
+    margin: auto;
+  }
+  .wrapper {
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+  } 
+  .sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    border-right: 1px solid gray;
+  }
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+
+
+<div class="calendar-header" align="center">
+    <h2 align="center" style="margin-top: 5%;">Welcome, {{current_user.first_name}} {{current_user.surname}}</h2>
+    <p align="center" style="margin-top: 5%;"><a id="bookings" href="/bookings" class="btn btn-primary">Manage my bookings</a>&nbsp;&nbsp;<a id="my_dogs" href="/my_dogs" class="btn btn-primary">My dogs</a>&nbsp;&nbsp;<a id="my_account" href="/my_account" class="btn btn-primary">Update my account details</a></p>
+<br />  <hr>
+    <h4 align="center" style="margin-top: 5%;">My bookings this week</h3>
+    
+    </div>
+    <div class ="view">
+      <div class="wrapper">
+    <div style="overflow-x:auto;">
+    <table class="table table-hover" align="center">
+        <thead>
+            <tr style="text-align: center;vertical-align: middle;">
+              <th scope="col" class="sticky-col">Week {{iso_week}}<br />{{iso_month}}</th>
+              <th scope="col">Monday<br /> {{week_dates.0}}</th>
+              <th scope="col">Tuesday<br /> {{week_dates.1}}</th>
+              <th scope="col">Wednesday<br /> {{week_dates.2}}</th>
+              <th scope="col">Thursday<br /> {{week_dates.3}}</th>
+              <th scope="col">Friday<br /> {{week_dates.4}}</th>
+              <th scope="col">Saturday<br /> {{week_dates.5}}</th>
+              <th scope="col">Sunday<br /> {{week_dates.6}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in week %}
+            <tr style="text-align: center;">
+            {% for key, value in x.items() %}
+                
+                {% if loop.index == 1 %} 
+                <td class="sticky-col"><b>{{value}}</b></td>
+                {% elif value == 0 %} 
+                <td></td>
+                {% else %}
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                      </svg>
+                </td>
+                {% endif %}
+    
+    
+    
+                {% endfor %}
+            </tr>
+    
+            {% endfor %}
+          </tbody>
+    </table>
+    </div>
+    </div></div>
+    <br />
+    <hr>
+    <h4 align="center"><br />My notes</h1>
+        <p align="center">Leave us a note about your dog(s) – collection details, feeding instructions, or anything else we might need to know.
+        </p>
+    <ul class="list-group list-group flush" id="notes">
+        {% for note in user.notes %}
+            <li class="list-group-item"><a href="/note/remove/{{note.id}}">
+                <button type="button" class="close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button> </a>{{ note.data }}</li>
+            <p style="font-size: 50%; text-align: right;"> {{note.date}} 
+                </p>
+        {% endfor %}
+    </ul>
+    
+    <form method="POST">
+        <textarea name="note" id="note" class="form-control"></textarea>
+        <br />
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Add note</button>
+        </div>
+    </form>
+    
+
+{% endblock %}

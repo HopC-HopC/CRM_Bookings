@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Account {{owner.id}} - {{config['SITE_NAME']}}{% endblock %}
+
+{% block content %}
+<div style="
+width: 100%;
+height: 100%;
+display: grid;
+grid-template-columns: 1fr 1fr;">
+
+
+<div style="width: 100%;">
+    <h4 align="center" style="margin-top: 5%;">Details for account {{owner.id}}</h4>
+    <p><br /></p>
+    <ul class="list-group list-group flush" id="account">
+
+
+        <form method="POST" id="owner_details" name="owner_details">
+
+
+    <li class="list-group-item">Name:   
+        <input type="text" 
+            class="form-control" 
+            id="first_name" 
+            name="first_name" 
+            value="{{ owner.first_name }}"
+            
+        />
+        <input type="text" 
+            class="form-control" 
+            id="surname" 
+            name="surname" 
+            value="{{owner.surname}}"
+            
+        />
+    </li>
+    <li class="list-group-item">Email:   
+        <input type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            value="{{ owner.email }}"
+            
+        /></li>
+        <li class="list-group-item">Username:   
+            <input type="text" 
+                class="form-control" 
+                id="username" 
+                name="username" 
+                value="{{ owner.username }}"
+                disabled
+            /></li>
+        <li class="list-group-item">Address:  
+            <input type="text" 
+                class="form-control" 
+                id="address_1" 
+                name="address_1" 
+                value="{{ owner.address_1 }}"
+                
+            /> </li>
+        <li class="list-group-item">Post Code:  
+            <input type="text" 
+                class="form-control" 
+                id="post_code" 
+                name="post_code" 
+                value="{{ owner.post_code }}"
+                
+            /> </li>
+    <li class="list-group-item">Contact Number:  
+        <input type="text" 
+            class="form-control" 
+            id="phone" 
+            name="phone" 
+            value="{{ owner.phone }}"
+            
+        /> </li>
+
+        <li class="list-group-item">User Role  <br />
+
+            {% if owner.role == 'admin' %}
+        <input type="radio" id="user" name="role" value="user">
+        <label for="user">Customer</label><br>
+        <input type="radio" id="admin" name="role" value="admin" checked>
+        <label for="admin">Admin</label><br> 
+            {%  elif owner.role == 'user' %}
+            <input type="radio" id="user" name="role" value="user" checked>
+            <label for="user">Customer</label><br>
+            <input type="radio" id="admin" name="role" value="admin">
+            <label for="admin">Admin</label><br> 
+            {% endif %}
+
+        </li>
+
+
+    <p align="center" >
+        <button type="submit" id="owner_details" name="owner_details" class="btn btn-primary">Update Account</button>
+    </form>
+    </p>
+    </ul>
+</div>
+<div style="width: 100%;">
+    <h4 align="center" style="margin-top: 5%;">Dogs</h4>
+    <p><br /></p>
+    <p align="center">
+        <ul class="list-group list-group flush" id="dogs">
+        {% for dog in dogs %}
+            <li class="list-group-item">
+                <a class="nav-item nav-link" id="view_dog" href="/admin_dogs/{{dog.id}}">{{dog.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </p>
+
+    <h4 align="center" style="margin-top: 5%;">Admin notes</h4>
+    <p align="center"><i>Only admins can see these notes</i></p>
+        <ul class="list-group list-group flush" id="notes">
+            {% for note in admin_notes %}
+                <li class="list-group-item"><a href="/admin_note/remove/{{owner.id}}/{{note.id}}">
+                    <button type="button" class="close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button> </a>{{ note.data }}</li>
+                <p style="font-size: 50%; text-align: right;"> {{note.date}} 
+                    </p>
+            {% endfor %}
+        </ul>
+        
+        <form method="POST" id="admin_note">
+            <textarea name="note" id="note" class="form-control"></textarea>
+            <br />
+            <div align="center">
+                <button type="submit" id="admin_note" name="admin_note" class="btn btn-primary">Add note</button>
+            </div>
+        </form>
+</div></div>
+<div><h4 align="center">Location on map:</h4><p align="center">
+    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{owner.post_code}},UK&zoom=12&size=600x300&maptype=roadmap
+    &markers=color:blue%7Cinfobox:{{owner.surname}}%7C{{coordinates[0]}},{{coordinates[1]}}
+    &key={{api_key}}">
+</p>
+</div>
+
+{% endblock %}

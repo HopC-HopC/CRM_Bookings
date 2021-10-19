@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}My Dogs - {{config['SITE_NAME']}}{% endblock %}
+
+{% block content %}
+
+<div style="width: auto;">
+<h3 align="center" style="margin-top: 5%;">View Bookings</h3>
+<ul class="list-group list-group flush" id="notes" style="margin-right: auto;width: 50%;margin-left: auto;min-width: 400px;">
+  
+    <p align="center">
+        <p align="center">
+        <li class="list-group-item" align="center">  <a class="nav-item nav-link" id="weekly_bookings" href="/admin_spreadsheet">Booking Management</a>  <br />
+ 
+        <ul style="width: inherit;margin-left: auto;margin-right: auto;text-align: left;">
+            <li>Manage bookings for all dogs for each month.</li>
+            <li>Spreadsheet view for easy navigation.</li>
+            <li>Links to daily views for assigning dogs to staff.</li>
+            <li>Quick and simple changing of booking type via tick boxes or booking cancellation.</li>
+        </ul>
+    </li>
+    <p align="center">
+        <p align="center">
+        <li class="list-group-item" align="center">  <a class="nav-item nav-link" id="weekly_bookings" href="/admin_view_bookings">View Bookings by Week</a>  <br />
+ 
+        <ul style="width: inherit;margin-left: auto;margin-right: auto;text-align: left;">
+            <li>View all bookings on a week by week basis.</li>
+            <li>Default view is set to current week.</li>
+        </ul>
+    </li>
+        </p>
+        <p align="center">
+        <li class="list-group-item" align="center">  <a class="nav-item nav-link" id="bookings_today" href="/admin_today">View Bookings for Today</a>  <br />
+        
+    
+        <ul style="width: inherit;margin-left: auto;margin-right: auto;text-align: left;">
+            <li>Retrieve bookings for today <br />(or next working day if after 2pm/weekend)</li>
+            <li>Map of booked dogs shown (for collection)</li>
+            <li>Display staff member assigned for collection (if set)</li>
+        </ul>
+    </li>
+        </p>
+        <li class="list-group-item" align="center">  <a class="nav-item nav-link" id="login" href="">Email Weekly Attendance</a><br />
+         
+        <ul style="width: inherit;margin-left: auto;margin-right: auto;text-align: left;">
+            <li>Email a week's booking list.</li>
+            <i>Not yet implemented</i>
+            <i>Email options will include dog attendance to staff, and email reminders to confirm bookings sent to owners each week.</i>
+        </ul>
+    </li>
+        </p>
+    </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% block title %}Admin Home - {{config['SITE_NAME']}}{%
+endblock %} {% block content %}
+
+<div style="
+width: 100%;
+height: 100%;
+display: grid;
+grid-template-columns: 1fr 1fr;">
+
+<div>
+  <h3 align="center" style="margin-top: 5%">Admin home</h3>
+  <ul
+    class="list-group list-group flush"
+    id="notes"
+  >
+      <li class="list-group-item" align="center">
+        <a class="nav-item nav-link" id="login" href="/admin_customers"
+          >View Customers</a
+        >
+        <br />
+        <ul
+          style="
+            width: max-content;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+          "
+        >
+          <li>View your list of registered customers.</li>
+          <li>Grab or edit their contact details.</li>
+          <li>View and add notes.</li>
+        </ul>
+      </li>
+    </p>
+    <li class="list-group-item" align="center">
+      <a class="nav-item nav-link" id="login" href="/admin_dogs">View Dogs</a>
+      <br />
+      <ul
+        style="
+          width: max-content;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: left;
+        "
+      >
+        <li>View and edit dog details.</li>
+        <li>View and add notes.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div>
+  <h3 align="center" style="margin-top: 5%">Customer notes</h3>
+  <ul class="list-group list-group flush" id="notes">
+    {% for note in notes %}
+    <li class="list-group-item">
+      <a href="/note/remove/{{note.id}}">
+        <button type="button" class="close">
+          <span aria-hidden="true"> &times; </span>
+        </button> </a
+      ><i>Note from <a href="/owner/{{note.owner}}">{{note.owner_name}}</a></i><br />{{ note.data }}
+    </li>
+    <p style="font-size: 50%; text-align: right">{{note.date}}</p>
+    {% endfor %}
+  </ul>
+</div>
+</div>
+
+{% endblock %}
