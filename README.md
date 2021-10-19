@@ -14,4 +14,6 @@ Unfortunately, the project lacks any documentation or consistent commenting.
 
 I worked on this project alone, and felt no need to comment or document the progress of the project further than descriptions on commits or occassional comments to track my thought process.
 
+In more recent small projects, and through creating resources for students, I have made sure to comment much more clearly and consistently.
+
 **I took a lot from working through this project, and there are many improvements I would make and best practices I would follow more closely were I to start again**
