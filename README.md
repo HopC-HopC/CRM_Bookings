@@ -1,12 +1,14 @@
 <h1>CRM/Booking System</h1>
 
-For this project, I created a web based CRM/Booking system for companies operating in the pet care industry -- specifically dog daycare companies.
+<p>For this project, I created a web based CRM/Booking system for companies operating in the pet care industry -- specifically dog daycare companies.</p>
 
-This project was undertaken to:
-a) learn Flask and associated technologies. Frontend work with Jinja2, JavaScript, HTML and CSS naturally followed.
-b) solve a problem: lack of relevant options for CRM and booking systems for companies operating in this sector.
+<p>This project was undertaken to:</p>
+<ol>
+  <li>learn Flask and associated technologies. Frontend work with Jinja2, JavaScript, HTML and CSS naturally followed.</li>
+  <li>solve a problem: lack of relevant options for CRM and booking systems for companies operating in this sector.</li>
+</ol>
 
-It's safe to say that some of the code is not as elegant as I would have liked, and if I were to start again it would be much more clean.
+<p>It's safe to say that some of the code is not as elegant as I would have liked, and if I were to start again it would be much more clean.</p>
 
 <h2>Comments and docs</h2>
 
